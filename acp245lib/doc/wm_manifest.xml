@@ -1,0 +1,10 @@
+<Manifest version="1.0.0">
+    <Plug-in name="@plugin@" refpath="{REF}" baseband="swift">
+        <Library name="@plugin@" itfversion="@itf_version@" buildversion="@build_version@" path="@plugin@" >
+            <ItfPath>@plugin@/itf</ItfPath>
+            <Compiler name="GCC" prefix="gcc" />
+        </Library>
+    </Plug-in>
+    <SampleSet>
+    </SampleSet>
+</Manifest>

@@ -1,0 +1,20 @@
+<div class="testbench_log"
+    n:pattern="TestbenchLogPattern"
+    n:render="liveElement"
+    xmlns:athena="http://divmod.org/ns/athena/0.7"
+    xmlns:n="http://nevow.com/ns/nevow/0.1"
+>
+    <n:invisible nrender="liveglue" />
+    Show:
+    <select class='log_level_select ui-widget'>
+        <athena:handler event="onchange" handler="filter"/>
+        <option value='all' selected="selected">ALL</option>
+        <option value='debug'>DEBUG</option>
+        <option value='info'>INFO</option>
+        <option value='warn'>WARN</option>
+        <option value='error'>ERROR</option>
+    </select>
+    <a href="" class='clear_button'><athena:handler event="onclick" handler="clear_log"/>clear</a>
+    <span class='log_scroll_lock ui-icon ui-icon-unlocked' title='Scroll lock'><athena:handler event="onclick" handler="scroll_lock_toggle"/></span>
+    <div class='log ui-widget ui-widget-content ui-corner-all'></div>
+</div>

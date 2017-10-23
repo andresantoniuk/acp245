@@ -1,0 +1,27 @@
+VERSION=1.1.0
+WINE=
+WINEPATH=
+NSIS=$(WINE) c:/Program\ Files/NSIS/makensis.exe
+
+.PHONY: doc all clean maintainer-clean check test installer
+
+all:
+	$(MAKE) -C src -f Makefile.win
+
+clean:
+	$(MAKE) -C src -f Makefile.win clean
+	$(MAKE) -C tests -f Makefile.win clean
+	rm -f win32/*-setup.exe
+
+maintainer-clean: clean
+
+check: all
+	$(MAKE) -C tests -f Makefile.win check
+
+test: check
+
+doc:
+	$(MAKE) docs
+
+installer: all test doc
+	$(NSIS) /DVERSION=$(VERSION) win32/installer.nsi

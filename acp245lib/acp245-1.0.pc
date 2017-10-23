@@ -1,0 +1,10 @@
+prefix=/root/tmp_install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/acp245/
+
+Name: acp
+Description: Edantech ACP245  libraries for embedded plataforms.
+Version: 1.6.3
+Libs: -L${libdir} -lacp245
+Cflags: -I${includedir}

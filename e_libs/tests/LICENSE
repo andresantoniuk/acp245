@@ -1,0 +1,5 @@
+IMPORTANT: Test cases must be released under GPL since they use code modified
+code from the check library (to run on Windows).
+
+In other words, DO NOT RELEASE BINARY VERSIONS OF TEST CASES TO CUSTOMERS to avoid
+issues.

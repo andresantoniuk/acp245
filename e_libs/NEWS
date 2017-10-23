@@ -1,0 +1,30 @@
+* Version 1.1.0, 2009-11-10:
+    - More granular libraries.
+    - Updated dependencies.
+
+* Version 1.0.0, 2009-09-07:
+    - Ported to win32.
+    - Added windows installer.
+
+* Version 0.2.1, 2009-08-13:
+    - Added extern "C" declaration to headers.
+
+* Version 0.2.0, 2009-07-31:
+    - Added e_buff method to peek the hex repr of the buffer.
+    - Added e_client functions to read from e_buff.
+
+* Version 0.1.2, 2009-07-14:
+    - Fixed e_client_addr_get_host.
+    - Fixed gps valid flag.
+    - Added is_periodic function for timers.
+    - e_mem_free on Wavecom checks for NULL before calling adl_memRelease.
+
+* Version 0.1.1, 2009-05-08:
+    - Added syslog client.
+    - Added STACK log level.
+    - Handle Wavecom GPS close states.
+    - Migrated linux networking classes to use libevent.
+    - Include license header on every source file and package.
+
+* Version 0.1.0, 2009-03-23:
+    - Initial Release.

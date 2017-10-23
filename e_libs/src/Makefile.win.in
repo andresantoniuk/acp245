@@ -1,0 +1,52 @@
+VERSION=@VERSION@
+WINE=@WINE@
+WINEPATH=@WINEPATH@
+
+MSVC=c:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/
+MSSDK=c:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/
+INCLUDE=/I${MSVC}include /I${MSSDK}Include /Iwin32 /Ilinux-gnu /I.
+LDFLAGS=/LIBPATH:${MSVC}lib /LIBPATH:${MSSDK}Lib
+CXX=${WINE} ${MSVC}/bin/cl.exe
+LIBRARIAN=${WINE} ${MSVC}/bin/lib.exe
+
+LIBRARIES = e_libs.lib e_libs_crc.lib e_libs_conf.lib e_libs_net.lib
+
+all: $(LIBRARIES)
+
+%.obj: %.c
+	$(CXX) /c $(INCLUDE) $< /Fo$@ /D_CRT_SECURE_NO_WARNINGS /W4 /WX /nologo /DWIN32 /EHsc /RTC1 /RTCc /Z7 /MT /D__WINE_MSVC__
+
+e_libs_crc.lib:	\
+	e_crc.obj
+	${LIBRARIAN} $^ /out:${@:.lib=_static.lib} ${LDFLAGS}
+
+e_libs_conf.lib:	\
+	e_conf.obj
+	${LIBRARIAN} $^ /out:${@:.lib=_static.lib} ${LDFLAGS}
+
+e_libs_net.lib:	\
+	e_client_addr.obj \
+	linux-gnu/e_client.obj \
+	e_syslog.obj
+	${LIBRARIAN} $^ /out:${@:.lib=_static.lib} ${LDFLAGS}
+
+e_libs.lib:	\
+	e_port.obj \
+	linux-gnu/e_io.obj	\
+	linux-gnu/e_mem.obj	\
+	linux-gnu/e_time.obj	\
+	linux-gnu/e_gps.obj	\
+	linux-gnu/e_gprs.obj	\
+	e_util.obj \
+	e_time_common.obj \
+	e_log.obj	\
+	e_queue.obj \
+	e_units.obj \
+	e_buff.obj
+	${LIBRARIAN} $^ /out:${@:.lib=_static.lib} ${LDFLAGS}
+
+#%.lib: %.o
+
+clean:
+	-rm  -f *.obj *.dll *.lib *.exp
+	-rm  -f linux-gnu/*.obj

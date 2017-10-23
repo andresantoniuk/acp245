@@ -1,0 +1,29 @@
+<div xmlns:nevow="http://nevow.com/ns/nevow/0.1">
+    <nevow:invisible nevow:render="liveglue"/>
+<script type='text/javascript'><!--
+$(document).ready(function(){
+        $("#tabs").tabs();
+        });
+--></script>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tab-console"><span>Console</span></a></li>
+            <li><a href="#tab-archive" id="btn_tab-archive"><span>Archive</span></a></li>
+            <li><a href="#tab-config"><span>Configuration</span></a></li>
+        </ul>
+        <div id="tab-console">
+            <div class='box' nevow:render="report_config_editor"/>
+            <div class='box server-box' nevow:render="server_script_editor"/>
+            <div class='box client-box' nevow:render="client_script_editor"/>
+            <div class='box log-box' nevow:render="testbench_log"/>
+        </div>
+        <div id="tab-archive">
+            <div nevow:render="testdb_grid"/>
+            <div id='dlg' class='dlg' title="Generating PDF" nevow:render="pdf_report_dialog"/>
+        </div>
+        <div id="tab-config">
+            <div class='box server-box' nevow:render="server_config"/>
+            <div class='box client-box' nevow:render="client_config"/>
+        </div>
+    </div>
+</div>

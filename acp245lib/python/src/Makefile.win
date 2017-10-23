@@ -1,0 +1,46 @@
+VERSION=1.6.3
+WINE=
+
+MSVC=c:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/
+MSSDK=c:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/
+INCLUDE=/I${MSVC}include /I${MSSDK}Include /I.
+LDFLAGS=/LIBPATH:${MSVC}lib /LIBPATH:${MSSDK}Lib
+CXX=${WINE} ${MSVC}/bin/cl.exe
+LIBRARIAN=${WINE} ${MSVC}/bin/lib.exe
+LINK=${WINE} ${MSVC}/bin/link.exe
+
+ACP245_PATH = ../../src/
+ACP245_INCLUDE = /I$(ACP245_PATH) /I$(ACP245_PATH)/win32/
+ACP245_LDFLAGS = /LIBPATH:$(ACP245_PATH)
+ACP245_LIB = $(ACP245_PATH)/acp245.lib
+
+E_LIBS_PATH = $(shell wine cmd /c @echo %E_LIBS_PATH% | sed -e 's,\\,/,g' | sed -e 's, ,\\ ,g')
+E_LIBS_INCLUDE = /I$(E_LIBS_PATH)/include
+E_LIBS_LDFLAGS = /LIBPATH:$(E_LIBS_PATH)/
+E_LIBS_LIB = $(E_LIBS_PATH)/e_libs_static.lib
+
+PYTHON_INCLUDE = /I$(PYTHON_PATH)/include
+PYTHON_LDFLAGS = /LIBPATH:$(PYTHON_PATH)/libs/
+PYTHON_LIB = $(PYTHON_PATH)/libs/python$(PYTHON_VER).lib
+
+INCLUDE:=$(INCLUDE) $(E_LIBS_INCLUDE) $(PYTHON_INCLUDE) $(ACP245_INCLUDE) /DE_ACP245_HAVE_E_LIBS
+LDFLAGS:=$(LDFLAGS) $(E_LIBS_LDFLAGS) $(PYTHON_LDFLAGS) $(ACP245_LDFLAGS)
+
+LIBRARIES = pdu_gen.pyd log.pyd
+
+all: $(LIBRARIES)
+
+$(LIBRARIES): %.pyd: %.obj
+	${LINK} $^ /DLL /out:$@ ${LDFLAGS} $(E_LIBS_PATH)/e_libs_static.lib $(PYTHON_LIB) $(ACP245_LIB) /WX
+
+${LIBRARIES:.pyd=.obj}: %.obj: %.c
+	$(CXX) /c $(INCLUDE) $< /Fo$@ /D_CRT_SECURE_NO_WARNINGS /W4 /nologo /DWIN32 /EHsc /RTC1 /RTCc /LD /Z7 \
+		/wd4706 \
+		/wd4100 \
+		/wd4127 \
+		/wd4702 \
+		/wd4244 \
+		/D__WINE_MSVC__
+
+clean:
+	rm  -f $(LIBRARIES) ${LIBRARIES:.pyd=.obj} ${LIBRARIES:.pyd=.lib} ${LIBRARIES:.pyd=.exp}

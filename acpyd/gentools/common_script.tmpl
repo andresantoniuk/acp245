@@ -1,0 +1,138 @@
+#def gen_asserts($role, $var, $varname)
+        #if $has_el($var, 'ctrl_byte')
+    assert_equals(${varname}.ctrl_byte, $hex($var.ctrl_byte))
+        #end if
+        #if $has_el($var, 'target_app_id')
+    assert_equals(${varname}.target_app_id,  $hex($var.target_app_id))
+        #end if
+        #if $has_el($var, 'appl_flg')
+    assert_equals(${varname}.appl_flg, $hex($var.appl_flg))
+        #end if
+        #if $has_el($var, 'ctrl_flg1')
+    assert_equals(${varname}.ctrl_flg1, $hex($var.ctrl_flg1))
+        #end if
+
+        #if $has_el($var, 'tcu_data')
+            #for $i in range(len($var.tcu_data.items))
+    assert_equals(${varname}.tcu_data.items[$i].type, ${hex($var.tcu_data.items[$i].type)})
+    assert_equals(len(${varname}.tcu_data.items[$i].data), ${len($var.tcu_data.items[$i].data)})
+            #end for
+
+        #end if
+        #if $has_el($var, 'version') and $var.version.present
+            #if $role == 'server'
+                ## Ugly, if varname == msg then this is a server that just receives a message
+                #if $varname == 'msg'
+    assert_true(${varname}.version is not None)
+    \# *** set to expected values ***
+    \#assert_equals(${varname}.version.tcu_manufacturer, 0x00)
+    \#assert_equals(${varname}.version.car_manufacturer, 0x00)
+    \#assert_equals(${varname}.version.major_hard_rel, 0x00)
+    \#assert_equals(${varname}.version.major_soft_rel, 0x00)
+                #else
+    \# Version Element should match the version element of the first message.
+    if ${varname}.version is not None:
+        assert_equals(${varname}.version.tcu_manufacturer, version.tcu_manufacturer)
+        assert_equals(${varname}.version.car_manufacturer, version.car_manufacturer)
+        assert_equals(${varname}.version.major_hard_rel, version.major_hard_rel)
+        assert_equals(${varname}.version.major_soft_rel, version.major_soft_rel)
+                #end if
+            #else
+    \# Should match the version sent on the first message
+    if ${varname}.version is not None:
+        assert_equals(${varname}.version.tcu_manufacturer, version.tcu_manufacturer)
+        assert_equals(${varname}.version.car_manufacturer, version.car_manufacturer)
+        assert_equals(${varname}.version.major_hard_rel, version.major_hard_rel)
+        assert_equals(${varname}.version.major_soft_rel, version.major_soft_rel)
+            #end if
+
+        #end if
+        #if $has_el($var, 'location')
+            #if $var.location.curr_gps
+    assert_true(${varname}.location.curr_gps is not None)
+            #else
+    assert_true(${varname}.location.curr_gps is None)
+            #end if
+            #if $var.location.prev_gps
+    assert_true(${varname}.location.prev_gps is not None)
+            #else
+    assert_true(${varname}.location.prev_gps is None)
+            #end if
+            #if $var.location.dead_reck
+    assert_true(${varname}.location.dead_reck is not None)
+            #else
+    assert_true(${varname}.location.dead_reck is None)
+            #end if
+            #if $var.location.loc_delta
+    assert_true(${varname}.location.loc_delta is not None)
+            #else
+    assert_true(${varname}.location.loc_delta is None)
+            #end if
+
+        #end if
+        #if $has_el($var, 'ctrl_func')
+    assert_equals(${varname}.ctrl_func.entity_id, $hex($var.ctrl_func.entity_id))
+            #if $var.ctrl_func.transmit_present
+    assert_equals(${varname}.ctrl_func.transmit_unit, $var.ctrl_func.transmit_unit)
+    assert_equals(${varname}.ctrl_func.transmit_interval, $var.ctrl_func.transmit_interval)
+            #end if
+
+        #end if
+        #if $has_el($var, 'func_cmd')
+    assert_equals(${varname}.func_cmd.cmd, $hex($var.func_cmd.cmd))
+
+        #end if
+        #if $has_el($var, 'func_status')
+    assert_equals(${varname}.func_status.cmd, $hex($var.func_status.cmd))
+
+        #end if
+        #if $has_el($var, 'tcu_resp')
+    assert_equals(${varname}.tcu_resp, $hex($var.tcu_resp))
+
+        #end if
+        #if $has_el($var, 'status')
+    if ${varname}.status not in (0, 2, 3):
+        fail('tcu_status must be 0, 2 or 3, got: %s' % ${varname}.status)
+
+        #end if
+        #if $has_el($var, 'error') and $has_el($var.error, 'code')
+    assert_true(${varname}.error is not None)
+    assert_equals(${varname}.error.code, $hex($var.error.code))
+
+        #end if
+        #if $has_el($var, 'error') and $has_el($var.error, 'items')
+            #for $i in range(len($var.error.items))
+    assert_equals(${varname}.error.items[$i].type, ${hex($var.error.items[$i].type)})
+                #if $var.error.items[$i].error
+    assert_equals(${varname}.error.items[$i].error.code, ${hex($var.error.items[$i].error.code)})
+                #end if
+            #end for
+
+        #end if
+        #if $has_el($var, 'vehicle_desc')
+            #if $role == 'server'
+                ## Ugly, if varname == msg then this is a server that just receives a message
+                #if $varname == 'msg'
+    assert_true(${varname}.vehicle_desc is not None)
+    \# *** set to expected values ***
+    \#assert_equals(${varname}.vehicle_desc.iccid, '01234567890123456789')
+                #else
+    \# ICCID must match the one received on the first message
+    assert_true(${varname}.vehicle_desc is not None)
+    assert_equals(${varname}.vehicle_desc.iccid, vehicle_desc.iccid)
+            #end if
+            #else
+    \# Should match the vehicle descriptor sent on the first message
+    assert_true(${varname}.vehicle_desc is not None)
+    \# ICCID must match the one sent on the request
+    assert_equals(${varname}.vehicle_desc.iccid, vehicle_desc.iccid)
+            #end if
+
+        #end if
+        #if $has_el($var, 'breakdown_status')
+    assert_equals(${varname}.breakdown_status.sensor, $hex($var.breakdown_status.sensor))
+
+        #end if
+#end def
+#set global $request_recv_assert = $gen_asserts($role, $req, 'msg')
+#set global $reply_recv_assert = $gen_asserts($role, $rep, 'reply')

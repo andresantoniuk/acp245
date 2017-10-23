@@ -1,0 +1,6 @@
+gcc/out
+src/linux-gnu
+src/wavecom
+src/win32
+src
+tests

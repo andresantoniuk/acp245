@@ -1,0 +1,114 @@
+PROJ_NAME=e_libs
+PROJ_TYPE=lib
+PLUGIN=$(PROJ_NAME)
+VERSION=1.0
+MINOR_VERSION=0
+REL_VERSION=$(VERSION).$(MINOR_VERSION)
+
+GPS_PLUGIN=C-GPS-OPUS-III/3.4.0.2020
+WIP_PLUGIN=WIP/5.10.0.2050/
+OAT_VERSION=2.30
+OAT_IDE_V=1.07.01
+OAT_OS_V=6.30.0.00
+OAT_FW_V=7.4.0.00
+SGT_VER=v1.2.19oat
+
+#GPS_PLUGIN=C-GPS-OPUS-III/3.00.33/
+#GPS_PLUGIN=C-GPS-OPUS-III/3.04.2020/
+#WIP_PLUGIN=WIP/5.00.2050/
+#OAT_VERSION=2.1
+#OAT_IDE_V=1.07.01
+#OAT_OS_V=6.10.05
+#OAT_FW_V=R72_00
+#SGT_VER=v1.2.19oat
+
+#GPS_PLUGIN=C-GPS-OPUS-III/3.00.33/
+#WIP_PLUGIN=WIP/4.00.2080/
+#OAT_VERSION=2.0.1
+#OAT_IDE_V=1.06.04
+#OAT_OS_V=6.01.07
+#OAT_FW_V=R71_00
+#SGT_VER=v1.2.18oat
+
+# Should point to OpenAT SDK directory
+OAT_HOME=${HOME}/OpenAT_$(OAT_VERSION)
+
+# Should point to the GCC ARM cross compiler
+WM_OAT_IDE_GTS_GCC=/usr/local/
+
+WM_OAT_IDE=$(OAT_HOME)/IDE/IDE/$(OAT_IDE_V)
+WM_OAT_IDE_ENV=linux
+PATH:=${PATH}:$(WM_OAT_IDE)/bin:$(WM_OAT_IDE)/sgt/script_sgt
+SGT_DIR=$(WM_OAT_IDE)/sgt
+SGT_SCRIPT=$(WM_OAT_IDE)/sgt/script_sgt
+
+WM_OAT_IDE_OS_DEFAULT=$(OAT_HOME)/OS/$(OAT_OS_V)
+WM_OAT_IDE_FW_DEFAULT=$(OAT_HOME)/Firmware/$(OAT_FW_V)
+WM_OAT_IDE_PLUGINS=$(OAT_HOME)/Plug-ins
+WM_OAT_IDE_ECLIPSE=$(OAT_HOME)/IDE/Eclipse/3.2.2
+
+.EXPORT_ALL_VARIABLES:
+
+TARGET_PLAT=WM_MOBIPOWER
+#TARGET_PLAT=WM_FASTRACK
+WM_MEM=1MB+
+#WM_MEM=256KB
+
+INCLUDES=-inc ./src/ -inc ./src/wavecom
+SOURCES=-src ./src/ -src ./src/wavecom
+
+COMP_FLAGS=-flag __WM__ -flag $(TARGET_PLAT) -flag OPENSSL_NO_DSA -flag OPENSSL_NO_DH -flag OPENSSL_NO_RIPEMD -flag OPENSSL_NO_DES -flag OPENSSL_NO_RC4 -flag OPENSSL_NO_RC2 -flag OPENSSL_NO_RC5 -flag OPENSSL_NO_BLOWFISH -flag OPENSSL_NO_MD2  -flag OPENSSL_NO_CAST -flag OPENSSL_NO_IDEA -flag OPENSSL_NO_MDC2 -flag OPENSSL_NO_ERR -flag OPENSSL_NO_SOCK -flag OPENSSL_NO_STDIO -flag OPENSSL_NO_FP_API -flag OPENSSL_NO_RIPEMD160 -flag OPENSSL_NO_ENGINE -flag OPENSSL_NO_BIO -flag OPENSSL_NO_CMS -flag OPENSSL_NO_JPAKE -flag OPENSSL_NO_EVP
+CURDIR=`pwd`
+SPLINT_OPTS=-preproc -nestcomment -exportlocal -incondefs -paramuse -predboolint -shiftimplementation -unqualifiedtrans -allimponly 
+WM_OPTS=-adl -$(PROJ_TYPE) -mem $(WM_MEM) -gts GCC $(COMP_FLAGS) -name $(PROJ_NAME) $(INCLUDES) $(SOURCES) -plugin $(WIP_PLUGIN) -plugin $(GPS_PLUGIN)
+
+MAINTAINER_CLEAN_FILES= \
+	.fwrc \
+	$(PROJ_NAME).mak \
+	.prjrc \
+	LoadIde.bat \
+	$(PROJ_NAME).fscs \
+    .osrc $(PROJ_NAME).scs wmnew.opt .gtsrc .pluginrc .prvgts .memrc wmnew.err
+
+MAINTAINER_CLEAN_DIRS= \
+	gcc
+
+all: update
+	wmmake
+
+update:
+	rm -f wmnew.opt
+	wmnew $(WM_OPTS)
+
+clean-gcc:
+	rm -rf gcc/
+	
+update-clean: clean-gcc update
+
+clean: update-clean
+	wmmake all_clean
+
+maintainer-clean: clean
+	rm -f $(MAINTAINER_CLEAN_FILES)
+	rm -rf $(MAINTAINER_CLEAN_DIRS)
+
+upload:
+	expect upload.exp
+	#minicom -S minicom.script fasttrack
+
+dist: clean all
+	mkdir -p openat_dist/$(PLUGIN)/$(REL_VERSION)/$(PLUGIN)/itf
+	sed -e 's,@plugin@,$(PLUGIN),g;s,@itf_version@,$(VERSION),g;s,@build_version@,$(MINOR_VERSION),g;' \
+		doc/wm_manifest.xml > openat_dist/$(PLUGIN)/$(REL_VERSION)/manifest.xml
+	cp src/*.h src/wavecom/*.h openat_dist/$(PLUGIN)/$(REL_VERSION)/$(PLUGIN)/itf/
+	cp gcc/out/gcc_$(PROJ_NAME).lib openat_dist/$(PLUGIN)/$(REL_VERSION)/$(PLUGIN)/gcc_$(PROJ_NAME)_$(REL_VERSION).lib
+
+install: dist
+	rm -rf $(WM_OAT_IDE_PLUGINS)/$(PLUGIN)
+	cp -r openat_dist/$(PLUGIN) $(WM_OAT_IDE_PLUGINS)/$(PLUGIN)
+	rm -rf openat_dist
+
+SPLINTOPTS =-weak -D$(TARGET_PLAT) -Isrc/ -Isrc/wavecom/ -I. -I$(WM_OAT_IDE_PLUGINS)/$(WIP_PLUGIN)/WIP/itf/ -I$(WM_OAT_IDE_OS_DEFAULT)/ADL/basic -I$(WM_OAT_IDE_OS_DEFAULT)/ADL/itf -I$(WM_OAT_IDE_PLUGINS)/$(GPS_PLUGIN)/C-GPS-OPUS-III/itf
+splint:
+	@echo "Running splint..."
+	-splint $(SPLINTOPTS) src/*.c src/*.h  src/wavecom/*.c src/wavecom/*.h

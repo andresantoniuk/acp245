@@ -1,0 +1,87 @@
+skel-dir         = string(default='vhost-skel')
+
+http-port        = integer(1, 65535, default=80)
+https-port       = integer(1, 65355, default=443)
+
+privkey          = string(default='server.pem')
+certificate      = string(default='server.pem')
+
+use-vhosts       = boolean(default=True)
+
+# used if no user-pass configuration is set for a particular host
+user-pass        = string_list(default=list())
+
+# Vhost configuration
+[domains]
+    # used if use-vhosts = False
+    [[main]]
+        log-level           = option('debug', 'error',default='debug')
+        allowed-ports       = int_list(default=list(12001, 12005))
+        allowed-ips         = ip_addr_list(default=list('127.0.0.1'))
+    	server-enabled      = boolean(default=True)
+    	client-enabled      = boolean(default=True)
+        user-pass           = string_list(default=None)
+
+        [[[console]]]
+            log-level           = option('debug', 'error',default=None)
+            enabled             = boolean(default=True)
+            write-script        = boolean(default=True)
+            port                = integer(1, 65535, default=12001)
+            allowed-ports       = int_list(default=None)
+            allowed-ips         = ip_addr_list(default=None)
+    	    server-enabled      = boolean(default=None)
+        	client-enabled      = boolean(default=None)
+        [[[gateway]]]
+            log-level           = option('debug', 'error',default=None)
+            enabled             = boolean(default=True)
+            port                = integer(1, 65535, default=12005)
+            allowed-ports       = int_list(default=None)
+            allowed-ips         = ip_addr_list(default=None)
+    	    server-enabled      = boolean(default=None)
+        	client-enabled      = boolean(default=None)
+        [[[avld]]]
+            enabled             = boolean(default=False)
+            server-ip           = ip_addr(default='127.0.0.1')
+            server-port         = integer(1, 65535, default=5595)
+            server-timeout      = integer(default=60)
+            server-ka           = integer(default=60)
+            device-id           = integer(default=None)
+            allowed-device-id   = int_list(default=None)
+
+    # used if use-vhosts = True
+    [[__many__]]
+        log-level               = option('debug', 'error',default='debug')
+        allowed-ports           = int_list(default=list(12001, 12005))
+        allowed-ips             = ip_addr_list(default=list('127.0.0.1'))
+    	server-enabled          = boolean(default=True)
+    	client-enabled          = boolean(default=True)
+        user-pass               = string_list(default=None)
+        write-script            = boolean(default=True)
+
+        [[[avld]]]
+            enabled             = boolean(default=False)
+            server-ip           = ip_addr(default='127.0.0.1')
+            server-port         = integer(1, 65535, default=5595)
+            server-timeout      = integer(default=60)
+            server-ka           = integer(default=60)
+            device-id           = integer(default=None)
+            allowed-device-id   = int_list(default=None)
+
+        [[[console]]]
+            log-level           = option('debug', 'error',default=None)
+            enabled             = boolean(default=True)
+            port                = integer(1, 65535, default=12001)
+            allowed-ports       = int_list(default=None)
+            allowed-ips         = ip_addr_list(default=None)
+    	    server-enabled      = boolean(default=None)
+            client-enabled      = boolean(default=None)
+            write-script        = boolean(default=None)
+
+        [[[gateway]]]
+            log-level           = option('debug', 'error',default=None)
+            enabled             = boolean(default=True)
+            port                = integer(1, 65535, default=12005)
+            allowed-ports       = int_list(default=None)
+            allowed-ips         = ip_addr_list(default=None)
+    	    server-enabled      = boolean(default=None)
+        	client-enabled      = boolean(default=None)

@@ -1,0 +1,76 @@
+#include $common_lib
+\# $description - Test Case
+\# ${role.capitalize()} side.
+\# Send ${request_type}#if $rep # and receive ${reply_type} as reply.#end if #
+
+def script(conn):
+#if $role == 'client'
+    \# *** set these fields to the manufacturer specific values ***
+    \# By default, it uses the the version element values given on the
+    \# ACP 245 specification for the vehicle position message
+    version = stdmsg['13.6.1.1'].version
+    \#version = IEVersion(
+    \#    tcu_manufacturer    = 0x00,
+    \#    car_manufacturer    = 0x00,
+    \#    major_hard_rel      = 0x00,
+    \#    major_soft_rel      = 0x00,
+    \#)
+    vehicle_desc = stdmsg['13.6.1.1'].vehicle_desc
+    \#vehicle_desc = IEVehicleDesc(
+    \#    iccid   = '01234567890123456789',
+    \#    auth_key= '\x01\x02\x03\x04\x05\x06\x07\x08',
+    \#)
+
+#end if
+#if $role == 'server'
+    \# wait for reconnection message from TCU, as specified on 14.13.1
+    while not conn.messages:
+        if not conn.connected:
+            fail("Didn't receive start message before disconnection")
+        yield
+
+    start_msg = conn.pop_first()
+    \# check that first message includes a verion element and ICCID
+    assert_true(start_msg.is_valid_tcu_first_msg())
+
+    \# store the version and vehicle descriptor element for later use
+    version = start_msg.version
+    vehicle_desc = start_msg.vehicle_desc
+
+#end if
+    \# get standard request (${request_type})
+    msg = stdmsg['${request_section}']
+
+    #if $request_has_version
+        #if $role == 'server'
+    \# use the same version as the one received from the TCU
+    msg.version = version
+        #else
+    msg.version = version
+        #end if
+
+    #end if
+    #if $request_has_vehicle_desc
+        #if $role == 'server'
+    \# use the same vehicle descriptor as the one received from the TCU
+    msg.vehicle_desc = vehicle_desc
+        #else
+    msg.vehicle_desc = vehicle_desc
+        #end if
+    #end if
+
+    \# send the ${request_type}
+    conn.send_msg(msg)
+
+    #if $rep
+    \# wait for ${reply_type}
+    reply = conn.pop_first(${reply_type})
+    while reply is None:
+        if not conn.connected:
+            fail("Didn't receive ${reply_type} before disconnection")
+        yield
+        reply = conn.pop_first(${reply_type})
+
+$reply_recv_assert #slurp
+
+    #end if

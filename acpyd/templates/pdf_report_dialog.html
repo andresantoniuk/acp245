@@ -1,0 +1,24 @@
+<div class="pdf_report_dialog" 
+            xmlns:athena="http://divmod.org/ns/athena/0.7"
+            xmlns:n="http://nevow.com/ns/nevow/0.1"
+            n:pattern="PdfReportDialogPattern"
+            n:render="liveElement"
+            >
+    <script type='text/javascript'>
+	    $(document).ready(function(){
+		    $( ".pbar" ).progressbar({value: 0});
+            var dialog = $(".dlg").dialog({autoOpen : false , modal : true, closeOnEscape : false, buttons : {}});
+            dialog.parent().find(".ui-dialog-titlebar-close").remove();
+	    });
+    </script>
+        <div style="heigth: 100%" class='pbar' id='pbar'>
+                <div style="position: absolute; with:100%; heigth: 100%; width: 100%">
+                   <div class='pbar-text' id="pbar-text" style="margin-left: auto; margin-right: auto; margin-top: 4px; width: 60px;">0%</div>
+                </div>
+        </div>
+        <br/>
+        <input type='button'  class='view_button ui-state-default ui-corner-all' value='Cancel' onclick="Nevow.Athena.Widget.get($('.pbar').get(0)).pdf_report_cancel();"/> 
+    <!--    
+    <a href="" class='view_button ui-state-default ui-corner-all' onclick="Nevow.Athena.Widget.get($('.pbar').get(0)).pdf_report_cancel();">Cancel</a>
+    -->
+</div>

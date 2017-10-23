@@ -1,0 +1,85 @@
+PROJ_NAME=@PACKAGE_NAME@
+PROJ_TYPE=lib
+PLUGIN=$(PROJ_NAME)
+VERSION=@VERSION@
+MINOR_VERSION=2
+REL_VERSION=$(VERSION).$(MINOR_VERSION)
+
+# Should point to OpenAT SDK directory
+OAT_HOME=${HOME}/OpenAT_$(OAT_VERSION)
+
+# Should point to the GCC ARM cross compiler
+WM_OAT_IDE_GTS_GCC=/usr/local/
+
+E_LIBS_PLUGIN=e_libs/1.0.0
+OAT_VERSION=2.30
+OAT_IDE_V=1.07.01
+OAT_OS_V=6.30.0.00
+OAT_FW_V=7.4.0.00
+SGT_VER=v1.2.19oat
+
+WM_OAT_IDE=$(OAT_HOME)/IDE/IDE/$(OAT_IDE_V)
+WM_OAT_IDE_ENV=linux
+PATH:=${PATH}:$(WM_OAT_IDE)/bin:$(WM_OAT_IDE)/sgt/script_sgt
+SGT_DIR=$(WM_OAT_IDE)/sgt
+SGT_SCRIPT=$(WM_OAT_IDE)/sgt/script_sgt
+SGT_VER=v1.2.18oat
+
+WM_OAT_IDE_OS_DEFAULT=$(OAT_HOME)/OS/$(OAT_OS_V)
+WM_OAT_IDE_FW_DEFAULT=$(OAT_HOME)/Firmware/$(OAT_FW_V)
+WM_OAT_IDE_PLUGINS=$(OAT_HOME)/Plug-ins
+WM_OAT_IDE_ECLIPSE=$(OAT_HOME)/IDE/Eclipse/3.2.2
+
+.EXPORT_ALL_VARIABLES:
+
+WM_MEM=1MB+
+
+INCLUDES=-inc ./src/ -inc ./src/wavecom/
+SOURCES=-src ./src/ -src ./src/wavecom/
+
+COMP_FLAGS=-flag __WM__
+CURDIR=`pwd`
+SPLINT_OPTS=-preproc -nestcomment -exportlocal -incondefs -paramuse -predboolint -shiftimplementation -unqualifiedtrans -allimponly
+WM_OPTS=-adl -$(PROJ_TYPE) -mem $(WM_MEM) -gts GCC $(COMP_FLAGS) -name $(PROJ_NAME) $(INCLUDES) $(SOURCES) -plugin $(E_LIBS_PLUGIN)
+
+MAINTAINER_CLEAN_FILES= \
+	.fwrc \
+	$(PROJ_NAME).mak \
+	.prjrc \
+	LoadIde.bat \
+    .osrc $(PROJ_NAME).scs wmnew.opt .gtsrc .pluginrc .prvgts .memrc wmnew.err \
+	$(PROJ_NAME).fscs
+
+MAINTAINER_CLEAN_DIRS= \
+	gcc
+
+all: update
+	wmmake
+
+update:
+	rm -f wmnew.opt
+	wmnew $(WM_OPTS)
+
+clean: update
+	wmmake all_clean
+
+maintainer-clean: clean
+	rm -f $(MAINTAINER_CLEAN_FILES)
+	rm -rf $(MAINTAINER_CLEAN_DIRS)
+
+dist: clean all
+	mkdir -p openat_dist/$(PLUGIN)/$(REL_VERSION)/$(PLUGIN)/itf
+	sed -e 's,@plugin@,$(PLUGIN),g;s,@itf_version@,$(VERSION),g;s,@build_version@,$(MINOR_VERSION),g;' \
+		doc/wm_manifest.xml > openat_dist/$(PLUGIN)/$(REL_VERSION)/manifest.xml
+	cp src/*.h openat_dist/$(PLUGIN)/$(REL_VERSION)/$(PLUGIN)/itf/
+	cp gcc/out/gcc_$(PROJ_NAME).lib openat_dist/$(PLUGIN)/$(REL_VERSION)/$(PLUGIN)/gcc_$(PROJ_NAME)_$(REL_VERSION).lib
+
+install: dist
+	rm -rf $(WM_OAT_IDE_PLUGINS)/$(PLUGIN)
+	cp -r openat_dist/$(PLUGIN) $(WM_OAT_IDE_PLUGINS)/$(PLUGIN)
+	rm -rf openat_dist
+
+SPLINTOPTS =-weak -Isrc/ -Isrc/wavecom/ -I. -I$(WM_OAT_IDE_OS_DEFAULT)/ADL/basic -I$(WM_OAT_IDE_OS_DEFAULT)/ADL/itf -I$(WM_OAT_IDE_PLUGINS)/$(E_LIBS_PLUGIN)/e_libs/itf 
+splint:
+	@echo "Running splint..."
+	-splint $(SPLINTOPTS) src/*.c src/*.h

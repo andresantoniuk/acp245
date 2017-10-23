@@ -1,0 +1,67 @@
+BASEPATH    := $(CURDIR)
+APPNAME     := acpyd
+VERSION  	:= $(shell sed -ne 's/^%define[ \t]*_version[ \t]*\([0-9.]*\)$$/\1/p' $(APPNAME).spec)
+
+WINE=wine
+NSIS=$(WINE) c:/Program\ Files/NSIS/makensis.exe
+PYTHON_VER=26
+PYTHON_PATH=c:/python$(PYTHON_VER)/
+PYTHON=$(WINE) $(PYTHON_PATH)/pythonw.exe
+
+all:
+	$(MAKE) gen
+	-mkdir -p build
+	$(PYTHON) setup.py build
+
+check: all
+	E_ACP245_LICENSE=../test_license.sig PYTHONPATH=build/lib/\;. $(PYTHON) c:\\python$(PYTHON_VER)\\scripts\\trial.py acpyd.test
+
+test: check
+
+%.install_files:
+	rm -f $@
+	for d in "" `find $(INPUT_PATH) -type d -printf '%P\n'`; do \
+		echo "    SetOutPath \"$(INSTALL_PATH)\\`echo $$d|tr '\/' '\\\'`\\\"" >> $@;\
+		for f in `find $(INPUT_PATH)/$$d -maxdepth 1 -type f`; do \
+			echo "    File \"..\\`echo $$f|tr '\/' '\\\'`\"" >> $@;\
+		done;\
+	done;
+
+%.delete_files:
+	rm -f $@
+	for d in `find $(INPUT_PATH) -type d -printf '%P\n'|sort -r` ""; do \
+		for f in `find $(INPUT_PATH)/$$d -maxdepth 1 -type f -printf '%P\n'`; do \
+			echo "    Delete \"$(INSTALL_PATH)\\`echo $$d|tr '\/' '\\\'`\\`echo $$f|tr '\/' '\\\'`\"" >> $@;\
+		done;\
+		echo "    RMDir \"$(INSTALL_PATH)\\`echo $$d|tr '\/' '\\\'`\\\"" >> $@;\
+	done;
+
+python.files: INPUT_PATH=build/lib
+python.files: INSTALL_PATH=\$$PythonPath\\Lib\\site-packages
+python.files: python.install_files python.delete_files
+
+data.files: INPUT_PATH=win32.dist/var/acpyd
+data.files: INSTALL_PATH=\$$INSTDIR
+data.files: data.install_files data.delete_files
+
+installer:
+	$(MAKE)
+	$(MAKE) install-strip DESTDIR=$(BASEPATH)/win32.dist
+	$(PYTHON) -m compileall build/lib
+	$(PYTHON) -m compileall twisted
+	$(PYTHON) -m compileall nevow
+	rm -f python.install_files python.delete_files data.install_files data.delete_files
+	$(MAKE) -f Makefile.win python.files
+	$(MAKE) -f Makefile.win data.files
+	m4 win32/installer.nsi.m4 > win32/installer.nsi
+	$(NSIS) /DVERSION=$(VERSION) win32/installer.nsi
+	if [ "x$$ACPYD_WIN_DEPS" != "x" ]; then cp -r $$ACPYD_WIN_DEPS win32/acpyd-win32-deps; fi
+	m4 win32/installer-nodeps.nsi.m4 > win32/installer-nodeps.nsi
+	$(NSIS) /DVERSION=$(VERSION) win32/installer-nodeps.nsi
+	rm -rf win32.dist python.install_files python.delete_files data.install_files data.delete_files
+
+clean:
+	rm -rf win32.dist/
+	rm -rf win32/*-setup.exe
+	rm -rf win32/installer.nsi win32/installer-nodeps.nsi
+	rm -rf win32.dist python.install_files python.delete_files data.install_files data.delete_files

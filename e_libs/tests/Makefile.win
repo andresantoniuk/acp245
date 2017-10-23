@@ -1,0 +1,49 @@
+VERSION=1.1.0
+WINE=
+WINEPATH=
+
+MSVC=c:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/
+MSSDK=c:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/
+INCLUDE=/I${MSVC}include /I${MSSDK}Include /I../src/win32 /I../src/linux-gnu /I../src
+LDFLAGS=/LIBPATH:${MSVC}lib /LIBPATH:${MSSDK}Lib
+WINE=wine
+CXX=${WINE} ${MSVC}/bin/cl.exe
+LIBRARIAN=${WINE} ${MSVC}/bin/lib.exe
+MANIFEST=${WINE} ${MSSDK}/bin/mt.exe
+
+EXECUTABLES = \
+	e_conf_test.exe \
+	e_buff_test.exe \
+	e_crc_test.exe \
+	e_log_test.exe \
+	e_port_test.exe \
+	e_queue_test.exe \
+	e_util_test.exe
+
+all: $(EXECUTABLES)
+
+%.obj: %.c
+	$(CXX) /c $(INCLUDE) $< /Fo$@ /D_CRT_SECURE_NO_WARNINGS /W3 /WX /nologo /DWIN32 /EHsc /RTC1 /RTCc /MT /Z7 /D__WINE_MSVC__
+
+e_conf_test.exe: e_conf_test.obj e_libs_check_static.lib
+	${CXX} $^ /link ${LDFLAGS} ../src/e_libs_static.lib ../src/e_libs_conf_static.lib
+e_port_test.exe: e_port_test.obj e_libs_check_static.lib
+	${CXX} $^ /link ${LDFLAGS} ../src/e_libs_static.lib
+e_queue_test.exe: e_queue_test.obj e_libs_check_static.lib
+	${CXX} $^ /link ${LDFLAGS} ../src/e_libs_static.lib
+e_util_test.exe: e_util_test.obj e_libs_check_static.lib
+	${CXX} $^ /link ${LDFLAGS} ../src/e_libs_static.lib
+e_log_test.exe: e_log_test.obj e_libs_check_static.lib
+	${CXX} $^ /link ${LDFLAGS} ../src/e_libs_static.lib
+e_buff_test.exe: e_buff_test.obj e_libs_check_static.lib
+	${CXX} $^ /link ${LDFLAGS} ../src/e_libs_static.lib
+e_crc_test.exe: e_crc_test.obj e_libs_check_static.lib
+	${CXX} $^ /link ${LDFLAGS} ../src/e_libs_static.lib ../src/e_libs_crc_static.lib
+e_libs_check_static.lib: e_minicheck.obj e_check_extra.obj
+	${LIBRARIAN} $^ /out:${@:.lib=.lib} ../src/e_libs_static.lib $(LDFLAGS)
+
+check: $(EXECUTABLES)
+	for x in $(EXECUTABLES); do $(WINE) $$x; done
+
+clean:
+	-rm -f *.obj *.exe *.dll *.lib *.exp *.exe.manifest *.dll.manifest

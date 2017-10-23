@@ -1,0 +1,18 @@
+<div xmlns:nevow="http://nevow.com/ns/nevow/0.1">
+    <nevow:invisible nevow:render="liveglue"/>
+    <table>
+        <tr>
+        <td>
+            <div class='box gateway-box'>
+                <div nevow:render="command_list"/>
+            </div>
+        </td>
+        <td>
+            Arguments: <input type='text' id='arguments' name='arguments' value=''/>
+            <br/>
+            <iframe class='result' id='result' name='result' src=''/>
+        </td>
+        </tr>
+    </table>
+    <div nevow:render="testbench_log"/>
+</div>

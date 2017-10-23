@@ -1,0 +1,96 @@
+#!/bin/bash
+#
+# acpyd         Startup script for Edantech ACP 245 server
+#
+# chkconfig: - 85 15
+# description: The Edantech ACP 245 provides gateway and testing  \
+#               services for ACP 245 enabled devices
+# processname: acpyd
+# pidfile: /var/run/acpyd.pid
+#
+### BEGIN INIT INFO
+# Provides: acpyd
+# Required-Start: $local_fs $remote_fs $network $named
+# Required-Stop: $local_fs $remote_fs $network
+# Short-Description: start and stop Edantech ACP 245 Server
+# Description: TThe Edantech ACP 245 provides gateway and testing  \
+#               services for ACP 245 enabled devices
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+if [ -f /etc/sysconfig/acpyd ]; then
+        . /etc/sysconfig/acpyd
+fi
+
+USER=${USER-"acpyd"}
+GROUP=${GROUP-"acpyd"}
+PREFIX=${PREFIX-"acpyd"}
+LOG=${LOG-"/var/log/acpyd/acpyd.log"}
+PIDFILE=${PIDFILE-"/var/run/acpyd/acpyd.pid"}
+RUNDIR=${RUNDIR-"/var/acpyd/"}
+twistd=/usr/bin/twistd
+prog=acpyd
+
+RETVAL=0
+
+start() {
+        echo -n $"Starting $prog: "
+        dir=$PWD
+        cd $RUNDIR
+        E_ACP245_LICENSE=${E_ACP245_LICENSE} ${twistd} --pidfile=${PIDFILE} --prefix=${PREFIX} --logfile=${LOG} --uid=${USER} --gid=${GROUP} --rundir ${RUNDIR} ${prog} ${OPTIONS}
+        RETVAL=$?
+        cd $dir
+	    [ $RETVAL = 0 ] && success
+        echo
+        return $RETVAL
+}
+
+stop() {
+	echo -n $"Stopping $prog: "
+	killproc -p ${PIDFILE} -d 10 $prog
+	RETVAL=$?
+	echo
+	[ $RETVAL = 0 ] && rm -f ${pidfile}
+    return $RETVAL
+}
+reload() {
+    echo -n $"Reloading $prog: "
+    killproc -p ${pidfile} $prog -HUP
+    RETVAL=$?
+	echo
+    return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  status)
+        status $prog
+	RETVAL=$?
+	;;
+  restart)
+	stop
+	start
+	;;
+  condrestart)
+	if [ -f ${pidfile} ] ; then
+		stop
+		start
+	fi
+	;;
+  force-reload|reload)
+        reload
+	;;
+  *)
+	echo $"Usage: $prog {start|stop|restart|condrestart|reload|help}"
+	RETVAL=3
+esac
+
+exit $RETVAL

@@ -1,0 +1,20 @@
+
+#endif /* E_LIBS_CONFIG_INC */
+
+/* Most portable way that we are aware to avoid compiler warnings */
+#define E_UNUSED(x)	((void)x)
+
+#ifdef __GNUC__
+#define E_UNUSED_FUNC __attribute__((unused))
+#else
+#define  __attribute__(x)  /* NOTHING */
+#define E_UNUSED_FUNC /* NOTHING */
+#endif
+
+#define E_INLINE /* NOTHING */
+
+#ifdef _MSC_VER
+#define __func__ __FUNCTION__
+#endif
+
+#endif /* __e_libs_h__ */

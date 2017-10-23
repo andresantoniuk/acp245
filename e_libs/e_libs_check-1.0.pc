@@ -1,0 +1,10 @@
+prefix=/root/tmp_install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib/e_libs/
+includedir=${prefix}/include/e_libs/
+
+Name: e_libs_check
+Description: Edantech CHECK libraries for embedded plataforms.
+Version: 1.1.0
+Libs: -L${libdir} -le_libs_check
+Cflags: -I${includedir}

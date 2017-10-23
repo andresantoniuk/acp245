@@ -1,0 +1,8 @@
+{
+    monstartup 
+    Memcheck:Leak
+    fun:calloc
+    fun:monstartup
+    fun:__gmon_start__
+    obj:/usr/lib64/libcheck.so.0.0.0
+}

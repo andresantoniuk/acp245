@@ -1,0 +1,28 @@
+#def fld_dim(fld)
+#if fld.dim
+[${fld.dim}]
+#end if
+#end def
+
+cdef extern from "$util.base_file($proto.file[0])":
+#if $proto.constants
+    cdef enum:
+#for val, type in $proto.constants
+        $val
+#end for
+#end if
+#for enum in $proto.enums
+    cdef enum $enum.name:
+    #for val in $enum.values
+        $val
+    #end for
+#end for
+#for el in $proto.classes
+    ctypedef struct $el.name:
+        #for fld in $el.c_fields
+        $fld.type ${fld.name}$fld_dim(fld)
+        #end for
+#end for
+#for fun in $proto.functions
+    $fun.return_type ${fun.name}(${', '.join(fun.parameters)})
+#end for

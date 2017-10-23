@@ -1,0 +1,80 @@
+e_check_extra.lo: e_check_extra.c ../e_libs_config.h e_check_extra.h \
+  ../src/e_log.h ../src/linux-gnu/e_port.h ../e_libs.h \
+  ../src/linux-gnu/e_types.h /usr/include/assert.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h /usr/include/string.h \
+  /usr/lib/gcc/i386-redhat-linux/4.3.2/include/stddef.h \
+  /usr/include/stdio.h /usr/include/bits/types.h \
+  /usr/include/bits/typesizes.h /usr/include/libio.h \
+  /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i386-redhat-linux/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/stdlib.h ../src/e_util.h /usr/include/time.h \
+  /usr/include/bits/time.h e_minicheck.h /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/mathdef.h \
+  /usr/include/bits/mathcalls.h
+
+../e_libs_config.h:
+
+e_check_extra.h:
+
+../src/e_log.h:
+
+../src/linux-gnu/e_port.h:
+
+../e_libs.h:
+
+../src/linux-gnu/e_types.h:
+
+/usr/include/assert.h:
+
+/usr/include/features.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/gnu/stubs-32.h:
+
+/usr/include/string.h:
+
+/usr/lib/gcc/i386-redhat-linux/4.3.2/include/stddef.h:
+
+/usr/include/stdio.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/i386-redhat-linux/4.3.2/include/stdarg.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/sys_errlist.h:
+
+/usr/include/stdlib.h:
+
+../src/e_util.h:
+
+/usr/include/time.h:
+
+/usr/include/bits/time.h:
+
+e_minicheck.h:
+
+/usr/include/math.h:
+
+/usr/include/bits/huge_val.h:
+
+/usr/include/bits/mathdef.h:
+
+/usr/include/bits/mathcalls.h:

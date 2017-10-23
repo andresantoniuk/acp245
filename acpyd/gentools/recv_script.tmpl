@@ -1,0 +1,69 @@
+#include $common_lib
+\# $description - Test Case
+\# ${role.capitalize()} side.
+\# Receive ${request_type}#if $rep # and send ${reply_type} as reply.#end if #
+
+def script(conn):
+#if $role == 'client'
+    \# *** set these fields to the manufacturer specific values ***
+    \# By default, it uses the the version element values given on the
+    \# ACP 245 specification for the vehicle position message
+    version = stdmsg['13.6.1.1'].version
+    \#version = IEVersion(
+    \#    tcu_manufacturer    = 0x00,
+    \#    car_manufacturer    = 0x00,
+    \#    major_hard_rel      = 0x00,
+    \#    major_soft_rel      = 0x00,
+    \#)
+    vehicle_desc = stdmsg['13.6.1.1'].vehicle_desc
+    \#vehicle_desc = IEVehicleDesc(
+    \#    iccid   = '01234567890123456789',
+    \#    auth_key= '\x01\x02\x03\x04\x05\x06\x07\x08',
+    \#)
+
+    \# send vehicle position message after reconnecting
+    \# as specified in 14.13.1
+    start_msg = stdmsg['13.6.1.1']
+    start_msg.version = version
+    start_msg.vehicle_desc = vehicle_desc
+    conn.send_msg(start_msg)
+
+#end if
+    \# wait for ${request_type} (${request_section})
+    msg = conn.pop_first(${request_type})
+    while msg is None:
+        if not conn.connected:
+            fail("Didn't receive ${request_type} before disconnection")
+        yield
+        msg = conn.pop_first(${request_type})
+$request_recv_assert #slurp
+
+#if $rep
+    \# get standard reply (${reply_type})
+    reply = stdmsg['${reply_section}']
+
+    #if $reply_has_version
+        #if $request_has_version
+    \# copy the version element of the request
+    reply.version = msg.version
+        #else
+            #if $role == 'client'
+    reply.version = version
+            #end if
+        #end if
+    #end if
+
+    #if $reply_has_vehicle_desc
+        #if $request_has_vehicle_desc
+    \# copy the vehicle descriptor of the request
+    reply.vehicle_desc = msg.vehicle_desc
+        #else
+            #if $role == 'client'
+    reply.vehicle_desc = vehicle_desc
+            #end if
+        #end if
+    #end if
+
+    \# send the ${reply_type})
+    conn.send_msg(reply)
+#end if

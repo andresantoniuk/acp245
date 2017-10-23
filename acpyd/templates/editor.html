@@ -1,0 +1,42 @@
+<div class="script_editor"
+    n:pattern="ScriptEditorPattern"
+    n:render="liveElement"
+    xmlns:athena="http://divmod.org/ns/athena/0.7"
+    xmlns:n="http://nevow.com/ns/nevow/0.1"
+>
+    <n:invisible nrender="liveglue" />
+    <div class="control-box ui-widget-content ui-corner-all">
+        <div class="controls">
+            <table>
+                <tr>
+                    <td rowspan="2" class="title ui-widget-header">
+                        <div n:render="role"/>
+                    </td>
+                    <td>Status</td>
+                    <td colspan="3"><div n:render="status_label"/></td>
+                </tr>
+                <tr>
+                    <td class='control_button'><span class="control_button"><div n:render="control_button"/></span></td>
+                    <td><div n:render="script_selector"/></td>
+                    <td>
+                    <div class='edit_controls'>
+                        <a href="" class='view_button ui-state-default ui-corner-all'><athena:handler event="onclick" handler="toggle_viewer"/>view</a>
+                        <n:invisible n:render="if_bench_write_script">
+                            <a href="" class='edit_button ui-state-default ui-corner-all'><athena:handler event="onclick" handler="edit_script"/>edit</a>
+                            <a href="" class='save_button ui-state-default ui-corner-all' style='display:none;'><athena:handler event="onclick" handler="save_script"/>save</a>
+                            <a href="" class='save_as_button ui-state-default ui-corner-all' style='display:none;'><athena:handler event="onclick" handler="save_as_script"/>save as</a>
+                            <input style='display:none;' type="text" class="save_as_name" value="new_script"/>
+                            <a href="" class='cancel_button ui-state-default ui-corner-all' style='display:none;'><athena:handler event="onclick" handler="cancel_edit"/>cancel</a>
+                        </n:invisible>
+                    </div>
+                    </td>
+
+                </tr>
+            </table>
+            <div style='display:none;' class="script_source ui-widget ui-widget-content"/>
+            <textarea style='display:none;' class='script_source_edit ui-widget ui-widget-content'>
+                <athena:handler event="onkeypress" handler="filter_key"/>
+            </textarea>
+        </div>
+    </div>
+</div>

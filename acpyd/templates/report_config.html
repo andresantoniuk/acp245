@@ -1,0 +1,27 @@
+<div class="report_config"
+    n:pattern="ReportConfigPattern"
+    n:render="liveElement"
+    xmlns:athena="http://divmod.org/ns/athena/0.7"
+    xmlns:n="http://nevow.com/ns/nevow/0.1"
+>
+    <n:invisible nrender="liveglue" />
+    <div class="title ui-widget-header ui-corner-top">Report information</div>
+    <div class="controls ui-widget-content ui-corner-bottom">
+        <table class="tblReportConfig">
+            <tr>
+                <td>Customer name<br/>
+                <input type="text" name="customer" onblur="Nevow.Athena.Widget.get(this).edit(this)"/><hr/></td>
+                <td>Auditor name<br/>
+                <input type="text" name="auditor" onblur="Nevow.Athena.Widget.get(this).edit(this)"/><hr/></td>
+                <td>TCU<br/>
+                <input type="text" name="tcu" value="" onblur="Nevow.Athena.Widget.get(this).edit(this)"/><hr/></td>
+                <td>Server<br/>
+                <input type="text" name="server" value="" onblur="Nevow.Athena.Widget.get(this).edit(this)"/><hr/></td>
+            </tr>
+            <tr>
+                <td colspan="4">Reference<br/>
+                <input type="text" name="reference" onblur="Nevow.Athena.Widget.get(this).edit(this)"/><hr/></td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div
+    n:render="liveElement"
+    xmlns:athena="http://divmod.org/ns/athena/0.7"
+    xmlns:n="http://nevow.com/ns/nevow/0.1"
+>
+    <n:invisible nrender="liveglue" />
+    <div class="title ui-widget-header ui-corner-top">Client</div>
+    <div class="controls ui-widget-content ui-corner-bottom">
+        <table>
+            <tr>
+                <td>IP</td>
+                <td><div n:render="ip_selector"/></td>
+            </tr>
+            <tr>
+                <td>Port</td>
+                <td><div n:render="port_selector"/></td>
+            </tr>
+        </table>
+    </div>
+</div>

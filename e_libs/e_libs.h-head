@@ -1,0 +1,8 @@
+/* e_libs.h -- fundamental types and structures for the e_libs library */
+
+#ifndef __e_libs_h__
+#define __e_libs_h__
+
+#ifndef E_LIBS_INC_CONFIG
+
+/* Feature configuration switches begin here */

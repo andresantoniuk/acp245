@@ -1,0 +1,30 @@
+VERSION=@VERSION@
+WINE=@WINE@
+NSIS=$(WINE) c:/Program\ Files/NSIS/makensis.exe
+
+.PHONY: all clean maintainer-clean check test doc installer
+
+all:
+	$(MAKE) -f Makefile
+	$(MAKE) -C src -f Makefile.win
+	$(MAKE) -C python -f Makefile.win
+
+clean:
+	$(MAKE) -C python -f Makefile.win clean
+	$(MAKE) -C tests -f Makefile.win clean
+	$(MAKE) -C src -f Makefile.win clean
+	rm -f win32/*-setup.exe
+
+maintainer-clean: clean
+
+check: all
+	$(MAKE) -C tests -f Makefile.win check
+	$(MAKE) -C python -f Makefile.win check
+
+test: check
+
+doc:
+	$(MAKE) docs
+
+installer: all test doc
+	$(NSIS) /DVERSION=$(VERSION) win32/installer.nsi

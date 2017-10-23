@@ -1,0 +1,54 @@
+skel-dir    = vhost-skel
+
+http-port   = 12004
+https-port  = 12005
+
+privkey     = server.pem
+certificate = server.pem
+
+acp-console-port = 12001
+acp-gateway-port = 12002
+
+use-vhosts  = True
+[domains]
+    [[barfoo.localhost]]
+    log-level           = debug
+    port                = 20001
+    allowed-ports       = 20002,18005
+    allowed-ips         = 192.168.2.10,127.0.0.1,
+    user-pass           = acp:acp,barfoo:barfoo
+
+    [[192.168.56.101]]
+    log-level           = debug
+    server-enabled      = true
+    client-enabled      = true
+        [[[avld]]]
+        enabled             = True
+        device-id           = 18
+        allowed-device-id   = 18,19
+        server-ka           = 15
+        [[[console]]]
+        port = 18001
+        allowed-ports       = 18001, 18005, 5558
+        write-script        = True
+        [[[gateway]]]
+        port = 18006
+        allowed-ports       = 18006,
+    user-pass           = acp:acp,barfoo:barfoo
+    [[localhost]]
+    log-level           = debug
+    server-enabled      = true
+    client-enabled      = true
+        [[[avld]]]
+        enabled             = True
+        device-id           = 18
+        allowed-device-id   = 18,19
+        server-ka           = 15
+        [[[console]]]
+        port = 18001
+        allowed-ports       = 18001, 18005, 5558
+        write-script        = True
+        [[[gateway]]]
+        port = 18006
+        allowed-ports       = 18006,
+    user-pass           = acp:acp,barfoo:barfoo

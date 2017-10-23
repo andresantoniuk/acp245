@@ -1,0 +1,28 @@
+VERSION=@VERSION@
+WINE=@WINE@
+NSIS=$(WINE) c:/Program\ Files/NSIS/makensis.exe
+PYTHON_VER=26
+PYTHON_PATH= c:/Python$(PYTHON_VER)/
+PYTHON=$(WINE) $(PYTHON_PATH)/pythonw.exe
+
+.EXPORT_ALL_VARIABLES:
+
+.PHONY: all clean maintainer-clean check test doc installer
+
+all:
+	$(MAKE) -f Makefile
+	$(MAKE) -C src -f Makefile.win
+	$(PYTHON) setup.py build
+	$(PYTHON) -m compileall build/
+
+clean:
+	$(MAKE) -C src -f Makefile.win clean
+	$(PYTHON) setup.py clean
+
+maintainer-clean: clean
+
+check: all
+	cp ../src/acp245.dll src/*.pyd build/lib/acp245/
+	E_ACP245_LICENSE=../tests/valid_license.sig PYTHONPATH=build/lib/ $(PYTHON) c:\\python$(PYTHON_VER)\\scripts\\trial.py acp245.test
+
+test: check

@@ -1,0 +1,3 @@
+2009-03-16 - check if ie that includes VIN number considers format restrictions (alphanumeric without I, O, Q)
+Verificar si se necesita el More Flag del AreaLocationStatusFlag1 del punto 3.8.2
+

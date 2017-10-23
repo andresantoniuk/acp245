@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@/
+includedir=@includedir@/e_libs/
+
+Name: e_libs_conf
+Description: Edantech libraries for embedded plataforms.
+Version: @VERSION@
+Libs: -L${libdir} -le_libs -le_libs_utils -le_libs_conf
+Cflags: -I${includedir}

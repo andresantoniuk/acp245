@@ -1,0 +1,247 @@
+html
+{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+body
+{
+    margin: 0;
+    padding: 0;
+    padding-left: 1em;
+    width: 99%;
+    color: #330033;
+    height: 100%;
+    font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
+    font-size: 80%;
+    min-height: 38em;
+    min-width: 750px;
+    _height: 38em;
+}
+/* Headers */
+h1 { font-size: 160%; }
+h2 { font-size: 130%; }
+h3 { font-size: 116%; }
+
+/* Standard sizes */
+.normal-size { font-size: 103%; }
+.small { font-size: 88%; }
+.smaller { font-size: 77%; }
+.smallest { font-size: 68%; }
+
+a
+{
+  color: inherit;
+}
+
+a:visited
+{
+  color: inherit;
+}
+
+#header
+{
+    height: auto;
+    width: 99%;
+}
+
+#header h1
+{
+    padding: 0;
+    margin: 0;
+    color: #3e6f9a;
+}
+
+#content-container
+{
+    margin: 0;
+    min-height: 36em;
+    width: 99%;
+}
+
+#footer
+{
+    padding-left: 1%;
+    font-size: 77%;
+    color: #666699;
+    height: auto;
+    width: 98%;
+}
+
+#content
+{
+    width: 98%;
+}
+
+#content > DIV {
+    width: 99%;
+    border: none;
+}
+
+textarea.script_source_edit {
+    background-color: #ededcc;
+    background: #ededcc;
+    width: 99%;
+    height: 26.7em;
+    padding-left: 0.6em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+    margin: 0;
+    overflow: auto;
+    font-family: monospace;
+}
+
+.script_source {
+    width: 99%;
+    height: 20em;
+    background-color: #ededcc;
+    background: #ededcc;
+    padding-left: 0.5em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+
+    margin: 0;
+    overflow: auto;
+}
+
+.log {
+    font: normal 1em monospace;
+    width: 100%;
+    height: 30em;
+    overflow: auto;
+}
+
+.log_scroll_lock {
+    float: right;
+}
+
+pre {
+    margin: 0;
+    padding: 0;
+}
+
+div.box {
+    clear: both;
+    padding-top: 1%;
+    padding-left: 1%;
+    padding-right: 1em;
+    height: auto;
+    width: 98%;
+}
+
+div.log-box {
+}
+
+span.server {
+    color: blue;
+}
+span.client {
+    color: green;
+}
+span.ev_test_failed {
+	color: red;
+}
+span.warn {
+    font-weight: normal;
+    color: red;
+}
+span.error {
+    font-weight: bold;
+    color: red;
+}
+span.all {
+    font-weight: bold;
+}
+div.inline DIV{
+    display: inline;
+}
+
+#frontend-content * {
+    outline-color:-moz-use-text-color !important;
+    outline-style:none !important;
+    outline-width:0 !important;
+}
+
+#frontend-content span.ui-icon {
+    left:0.2em;
+    margin:-8px 5px 0 0;
+    position:absolute;
+    top:50%;
+}
+
+#frontend-content a {
+    padding: 0.4em 1em 0.4em 20px;
+    position: relative;
+    text-decoration: none;
+    color: #2E6E9E;
+}
+
+.controls table {
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+    border: none;
+}
+
+.controls table .title {
+    width: 5em;
+    border: none;
+    text-align: center;
+}
+
+.controls table td {
+    padding-left: 0.2em;
+    padding-bottom: 0.1em;
+    border: none;
+}
+
+td.control_button {
+    width: 5em;
+}
+td.control_button input {
+    min-width: 5em;
+    width: 5em;
+}
+
+.controls table a {
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+    text-decoration: none;
+    color: #2E6E9E;
+}
+.edit_controls a {
+    min-width: 4em;
+}
+
+a.underline {
+    text-decoration: underline !important;
+}
+
+div.msg_tree { overflow:auto; }
+/* Turn off list bullets */
+ul.tree  li { list-style: none; }
+/* Control how "spaced out" the tree is */
+ul.tree, ul.tree ul , ul.tree li { margin-left:10px; padding:0px; white-space: nowrap}
+/* Provide space for our own "bullet" inside the LI */
+ul.tree  li           .bullet { padding-left: 15px;}
+/* Show "bullets" in the links, depending on the class of the LI that the link's in */
+ul.tree  li.liOpen    .bullet { cursor: pointer; background: url(/images/minus.gif)  center left no-repeat; }
+ul.tree  li.liClosed  .bullet { cursor: pointer; background: url(/images/plus.gif)   center left no-repeat; }
+ul.tree  li.liBullet  .bullet { cursor: default; background: url(/images/bullet.gif) center left no-repeat; }
+/* Sublists are visible or not based on class of parent LI */
+ul.tree  li.liOpen    ul { display: block; border-left:1px solid #C0C0C0; border-top:1px solid #C0C0C0;}
+ul.tree  li.liClosed  ul { display: none; }
+
+/*box titles*/
+.ui-widget-header {padding:4px;}
+
+/*empty labels*/
+input.emptyInputComment {color:#a5a5a5 !important; font-style:italic;}
+
+table.tblReportConfig {width:600px; border:0;color:#3e6f9a;font-size:77%;font-style:italic;}
+table.tblReportConfig td {width:300px; padding-left:10px; padding-right:10px; padding-top:5px;padding-bottom:5px;}
+table.tblReportConfig hr {display:none; border:#000000 1px solid; border-style:none none dotted; color: #fcfdfd; background-color: #fcfdfd;}
+table.tblReportConfig input {width:100%;color:#3e6f9a; font-size:110%;padding:3px; font-weight:bold; background:#fcfdfd; border:#3e6f9a 1px solid;}
+table.tblReportConfig input[readonly] {background:#fcfdfd;border:#fcfdfd 1px solid; padding-left:0; color:#000000;}
+

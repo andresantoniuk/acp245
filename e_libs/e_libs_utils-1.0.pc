@@ -1,0 +1,10 @@
+prefix=/root/tmp_install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib/
+includedir=${prefix}/include/e_libs/
+
+Name: e_libs_utils
+Description: Edantech libraries for embedded plataforms.
+Version: 1.1.0
+Libs: -L${libdir} -le_libs -le_libs_utils -levent
+Cflags: -I${includedir}

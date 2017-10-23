@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@/acp245/
+
+Name: acp
+Description: Edantech ACP245  libraries for embedded plataforms.
+Version: @VERSION@
+Libs: -L${libdir} -lacp245
+Cflags: -I${includedir}

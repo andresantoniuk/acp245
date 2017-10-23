@@ -1,0 +1,63 @@
+EDANTECH SOFTWARE LICENSE AGREEMENT
+
+PLEASE READ THE FOLLOWING TERMS AND CONDITIONS CAREFULLY BEFORE INSTALLING OR USING THE SOFTWARE OR ANY ACCOMPANYING DOCUMENTATION (COLLECTIVELY, THE SOFTWARE). THE TERMS AND CONDITIONS OF THIS END USER LICENSE AGREEMENT (AGREEMENT) GOVERN USE OF THE SOFTWARE.  IF YOU DO NOT ACCEPT  ALL THE TERMS OF THIS AGREEMENT, THEN EDANTECH IS UNWILLING TO LICENSE THE SOFTWARE TO YOU.  IF YOU INSTALL OR USE THE SOFTWARE, THEN YOU HAVE INDICATED THAT YOU UNDERSTAND THIS AGREEMENT AND ACCEPT ALL OF ITS TERMS.
+
+1. Grant of License.  Subject to your compliance with the terms and conditions of this Agreement, Edantech grants you a non-exclusive and non-transferable license to install only in Designated Equipment, solely for your personal/corporate, non-commercial use, the Software in machine readable object code and source code form listed in Exhibit A attached hereto and any subsequent error corrections or updates supplied to Licensee by Edantech pursuant to this Agreement. Exhibit A may be amended from time to time by the parties in writing. Edantech reserves all rights in the Software not expressly granted to you in this Agreement.
+
+2. Restrictions.  Except as expressly specified in this Agreement, you may not: (a) copy or modify the Software; (b) transfer, sublicense, lease, lend, rent or otherwise distribute the Software to any third party; or (c) make the functionality of the Software available to multiple users through any means, including, without, limitation, by uploading the Software to a network or file-sharing service or through any hosting, application services provider, service bureau or any other type of services.  You acknowledge and agree that portions of the Software, including, without limitation, the source code and the specific design and structure of individual modules or programs, constitute or contain trade secrets of Edantech and its licensors.  Accordingly, you agree not to disassemble, decompile or otherwise reverse engineer the Software, in whole or in part, or permit or authorize a third party to do so, except to the extent such activities are expressly permitted by law notwithstanding this prohibition.
+
+3. Ownership.  The Software is licensed, not sold.  You own the media (if any) on which the Software is recorded, but Edantech retains ownership of the Software, including all intellectual property rights therein.  The Software is protected by Uruguay copyright law and international treaties.  You will not delete or in any manner alter the copyright, trademark, and other proprietary rights notices or markings appearing on the Software as delivered to you.
+
+4. Term.  This Agreement remains effective until terminated.  You may terminate it at any time by destroying all copies of the Software in your possession or control.  This Agreement will automatically terminate without notice if you breach any  term of this Agreement.  Upon termination, you must promptly destroy all copies of the Software in your possession or control.
+
+5. No Warranty.  THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND. EDANTECH EXPRESSLY DISCLAIMS ALL WARRANTIES AND CONDITIONS, EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES AND CONDITIONS OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT, AND ANY WARRANTIES AND CONDITIONS ARISING OUT OF COURSE OF DEALING OR USAGE OF TRADE. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED FROM EDANTECH OR ELSEWHERE WILL CREATE ANY WARRANTY OR CONDITION NOT EXPRESSLY STATED IN THIS AGREEMENT.
+
+6. Limitation of Liability.  EDANTECH'S TOTAL LIABILITY TO YOU FROM ALL CAUSES OF ACTION AND UNDER ALL THEORIES OF LIABILITY WILL BE LIMITED TO AND WILL NOT EXCEED THE AMOUNTS PAID TO EDANTECH BY YOU FOR THE SOFTWARE.  IN NO EVENT WILL EDANTECH BE LIABLE TO YOU FOR ANY SPECIAL, INCIDENTAL, EXEMPLARY, PUNITIVE OR CONSEQUENTIAL DAMAGES (INCLUDING LOSS OF USE, DATA, BUSINESS OR PROFITS) OR FOR THE COST OF PROCURING SUBSTITUTE PRODUCTS ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT OR THE USE OR PERFORMANCE OF THE SOFTWARE, WHETHER SUCH LIABILITY ARISES FROM ANY CLAIM BASED UPON CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, AND WHETHER OR NOT EDANTECH HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH LOSS OR DAMAGE.  THE FOREGOING LIMITATIONS WILL SURVIVE AND APPLY EVEN IF ANY LIMITED REMEDY SPECIFIED IN THIS AGREEMENT IS FOUND TO HAVE FAILED OF ITS ESSENTIAL PURPOSE.
+
+
+EXHIBIT A
+---------
+SOFTWARE AND CONSIDERATION
+
+Description of Software: acpyd - Edantech ACP 245 server.
+
+Licensee: Johnson Controls Automotive do Brasil Ltda.
+
+Designated Equipment: Licensee infrastructure
+
+*******************************************************************************
+This software includes software Licensed Using the ZPL.
+RestrictedPython License
+------------------------
+ZPL 2.1
+
+Zope Public License (ZPL) Version 2.1
+
+A copyright notice accompanies this license document that identifies the
+copyright holders.
+
+This license has been certified as open source. It has also been designated as
+GPL compatible by the Free Software Foundation (FSF).
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+   1. Redistributions in source code must retain the accompanying copyright
+      notice, this list of conditions, and the following disclaimer.
+   2. Redistributions in binary form must reproduce the accompanying copyright
+      notice, this list of conditions, and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+   3. Names of the copyright holders must not be used to endorse or promote
+      products derived from this software without prior written permission
+      from the copyright holders.
+   4. The right to distribute this software or to use it for any purpose does
+      not give you the right to use Servicemarks (sm) or Trademarks (tm) of
+      the copyright holders. Use of them is covered by separate agreement with
+      the copyright holders.
+   5. If any files are modified, you must cause the modified files to carry
+      prominent notices stating that you changed the files and the date of any
+      change.
+
+Disclaimer
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

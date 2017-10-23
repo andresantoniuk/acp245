@@ -1,0 +1,20 @@
+AT Commands exported by library
+-------------------------------------------------------------------------------
+
+AT+EGPRS=<apn>,<user>,<pass>
+Sets the GPRS configuration.
+
+AT+EGPRS?
+Gets the GPRS configuration.
+Reply:
+    +EGPRS: <apn>,<user>,<pass>
+
+AT+ELOG=<log_level>
+Sets the log level.
+Returns:
+    CME ERROR: 3 - if log_level is not between 0 and 9.
+
+AT+ELOG?
+Gets the current log level.
+Reply:
+    +ELOG: <log_level>

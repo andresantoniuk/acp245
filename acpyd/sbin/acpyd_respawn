@@ -1,0 +1,16 @@
+#!/bin/sh
+
+NAME=acpyd
+SUPPORT_EMAIL=support@edantech.com
+SUBJECT="${NAME} down on ${HOSTNAME}"
+SERVICE_BIN=/sbin/service
+
+if [ -f /etc/sysconfig/${NAME} ]; then
+    . /etc/sysconfig/${NAME}
+fi
+
+ps awxu|grep twistd|grep -v 'grep' > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+	tail /var/log/${NAME}/${NAME}.log /var/log/messages | mail -s "${SUBJECT}" ${SUPPORT_EMAIL}
+	${SERVICE_BIN} ${NAME} start > /dev/null 2>&1
+fi

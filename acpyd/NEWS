@@ -1,0 +1,98 @@
+* Version 1.8.2, 2011-08-30:
+    - Add PDF report info configuration, requested by TUV.
+    - Add control and dialog with progress bar for pdf generation
+* Version 1.7.1, 2011-03-01:
+	- Bugfix, display msg tree javascipt funciont in tree.js, for TCUDataItems.
+
+* Version 1.7.0, 2010-02-10:
+	- Added PDF report.
+
+* Version 1.6.0, 2010-01-14:
+	- Added custom scripts for NCC.
+	- Updated to use new acp245 1.5.0 library methods.
+
+* Version 1.5.0, 2010-01-07:
+    - Added support to autoreply with a function.
+    - Updated to use new acp245 1.4.0 library functions.
+    - Additional example scripts.
+    - More descriptive failures when script fails inside timer or callback.
+
+* Version 1.4.0, 2009-11-10:
+    - Added support for windows and windows installer.
+
+* Version 1.3.0, 2009-10-08:
+    - Improved default configuration.
+
+* Version 1.2.0, 2009-10-05:
+    - Changes on code generation templates to work on Cheetah 2.2 (fc11).
+
+* Version 1.1.0, 2009-09-24:
+    - Fixed makeLogger
+    - Force closing of current clients when receiving new connection
+
+* Version 1.0.0, 2009-09-22:
+    - Added export to KML
+    - Added support to send tracking position to pyavld
+    - Added support to enable/disable gateway/client and script edition.
+    - Lock/Unlock log scroll.
+    - Save log to db and display log.
+    - Added archive tab for console.
+
+* Version 0.3.2, 2009-08-17:
+    - Allow changing header parameters.
+    - Added a configuration tab for the client and server.
+
+* Version 0.3.1, 2009-08-13:
+    - Updated .spec for to new libraries release numbers.
+
+* Version 0.3.0, 2009-08-10:
+    - Added basic wxpython based emulator (EXPERIMENTAL).
+    - Compile scripts with Zope's RestrictedPython (packaged with acpyd to simplify installation...)
+    - Added ACP standard message flow generator.
+
+* Version 0.2.1, 2009-08-03:
+    - Added support for msg_ctrl, version and test flag for header on gateway.
+    - Authenticate gateway commands.
+    - Renamed VTS to TCU.
+    - Removed Edantech Copyright from example scripts.
+    - Use a common gateway_scripts directory.
+
+* Version 0.2.0, 2009-07-31:
+    - Added support for virtual hosts.
+    - Officially support client side gateway commands.
+
+* Version 0.1.1, 2009-07-24:
+    - Improved client gateway scripts.
+    - Improved script abort.
+    - Better support for IE (at least IE 8).
+    - Additional parameter for send_track_cmd gw command.
+    - Fixed result count of test event table.
+    - Support integer input in hex on gateway.
+
+* Version 0.1.0, 2009-07-14:
+    - Added gateway module.
+
+* Version 0.0.7, 2009-05-29:
+    - Support more than one user/pass combination.
+
+* Version 0.0.6, 2009-05-26:
+    - Add a command line option to set the manhole server port.
+
+* Version 0.0.5, 2009-05-19:
+    - Added a manhole service to be able to diagnose problems on running instance more easily.
+    - Webconsole discards log messages that are below the requested log level.
+    - Included a script to respawn the acpyd server in the RPM.
+    - Fixed memory lLeak on TestbenchLog element.
+
+* Version 0.0.4, 2009-05-11
+    - Close current connections when clicking stop server button.
+    - Fixed logging of message parse errors.
+
+* Version 0.0.3, 2009-05-08:
+    - Include license header on every source file and package.
+
+* Version 0.0.2, 2009-04-22:
+    - Use textarea value attribute instead of innerHTML to display the edited script.
+
+* Version 0.0.1, 2009-03-23:
+    - Initial Release.

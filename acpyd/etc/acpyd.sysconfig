@@ -1,0 +1,11 @@
+# acpyd configuration file (defaults to /etc/acpyd/acpyd.conf)
+#--config
+# acpyd sites log directory
+#--log-dir
+#SSL certificate to use for HTTPS.
+#--certificate
+#--privkey
+
+OPTIONS="--config=/etc/acpyd/acpyd.conf --log-dir=/var/log/acpyd/ --certificate=server.pem --privkey=server.pem"
+SUPPORT_EMAIL=support@edantech.com
+E_ACP245_LICENSE="/etc/acpyd/acp245_license.sig"

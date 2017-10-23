@@ -1,0 +1,29 @@
+div.tabs {
+}
+div.tab-archive {
+}
+div.testdb-grid-box {
+    width: 100%;
+}
+
+.ui-jqgrid tr.jqgrow td {
+    white-space: pre-wrap !important;
+    word-wrap: break-word;
+    text-wrap: unrestricted;
+}
+.ui-datepicker {
+    z-index:999999;
+}
+SPAN.ui-icon-kml {
+    width: 30px;
+    height: 12px;
+    background-image: url(images/icon_kml.png) !important;
+}
+SPAN.ui-icon-pdf {
+    width: 16px;
+    height: 16px;
+    background-image: url(images/icon_pdf.gif) !important;
+}
+A.table-icon {
+    display: inline-block;
+}

@@ -1,0 +1,25 @@
+- CLIENT
+*******************************************************************************
+To execute the client run:
+java -Djavax.net.ssl.trustStore=cacerts -Djavax.net.ssl.trustStorePassword=changeit TestScriptClient http://<domain> <port> <ip> <user> <password>
+Example:
+java -Djavax.net.ssl.trustStore=cacerts -Djavax.net.ssl.trustStorePassword=changeit TestScriptClient http://acptest.edantech.net 10101 127.0.0.1 edantech <PASSWORD>
+
+- SERVER
+*******************************************************************************
+To execute the server run:
+java -Djavax.net.ssl.trustStore=cacerts -Djavax.net.ssl.trustStorePassword=changeit  TestScriptServer http://<domain> <listen port> <user> <password>
+Example:
+java -Djavax.net.ssl.trustStore=cacerts -Djavax.net.ssl.trustStorePassword=changeit  TestScriptServer http://acptest.edantech.net 10101 edantech <PASSWORD>
+
+
+- HTTPS connections
+*******************************************************************************
+The "-Djavax.net.ssl.trustStore=cacerts -Djavax.net.ssl.trustStorePassword=changeit"
+options must be provided in case you need to connect using SSL. The server
+certificate must be signed by a valid CA, or be stored in cacerts.
+
+To import a new certificate in cacerts use:
+keytool -import -file <certificate.pem> -keystore cacerts
+
+Password is 'changeit'. Please, don't change it.

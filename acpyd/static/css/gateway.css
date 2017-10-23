@@ -1,0 +1,36 @@
+
+#tabs {
+    height: 90%;
+    min-height: 30em;
+}
+* html #tabs {
+    height: 90%;
+}
+#tab-status {
+    height: 99%;
+}
+* html #tab-status {
+    height: 99%;
+}
+#tab-status div:not(".report_config_editor"){
+    min-height: 30em;
+}
+* html #tab-status div:not(".report_config_editor") {
+    height: 30em;
+}
+#tab-status div.inline {
+    height: auto;
+    min-height: 1.5em;
+}
+* html #tab-status div.inline {
+    height: 1.5em;
+}
+#tab-archive {
+    height: 99%;
+}
+* html #tab-archive {
+    height: 99%;
+}
+iframe.result {
+    width: 500px;
+}

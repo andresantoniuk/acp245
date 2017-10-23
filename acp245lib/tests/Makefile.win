@@ -1,0 +1,44 @@
+VERSION=1.6.3
+WINE=
+
+MSVC=c:/Program\ Files/Microsoft\ Visual\ Studio\ 9.0/VC/
+MSSDK=c:/Program\ Files/Microsoft\ SDKs/Windows/v6.0A/
+INCLUDE=/I${MSVC}include /I${MSSDK}Include /I../src/win32 /I../src/linux-gnu /I../src
+LDFLAGS=/LIBPATH:${MSVC}lib /LIBPATH:${MSSDK}Lib
+CXX=${WINE} ${MSVC}/bin/cl.exe
+LIBRARIAN=${WINE} ${MSVC}/bin/lib.exe
+MANIFEST=${WINE} ${MSSDK}/bin/mt.exe
+
+E_LIBS_PATH = $(shell wine cmd /c @echo %E_LIBS_PATH% | sed -e 's,\\,/,g' | sed -e 's, ,\\ ,g')
+E_LIBS_INCLUDE = /I$(E_LIBS_PATH)/include
+E_LIBS_LDFLAGS = /LIBPATH:$(E_LIBS_PATH)/
+E_LIBS_LIB = $(E_LIBS_PATH)/e_libs_static.lib $(E_LIBS_PATH)/e_libs_check_static.lib
+INCLUDE:=$(INCLUDE) $(E_LIBS_INCLUDE)
+LDFLAGS:=$(LDFLAGS) $(E_LIBS_LDFLAGS)
+
+EXECUTABLES = \
+	acp_el_test.exe \
+	acp_msg_test.exe \
+	acp_key_test.exe \
+	acp_license_test.exe
+
+all: $(EXECUTABLES)
+
+%.obj: %.c
+	$(CXX) /c $(INCLUDE) $< /Fo$@ /D_CRT_SECURE_NO_WARNINGS /W3 /WX /nologo /DWIN32 /EHsc /RTC1 /RTCc /Z7 /MT /D__WINE_MSVC__
+
+acp_msg_test.exe: acp_msg_test.obj
+	${CXX} $^ /link ${LDFLAGS} $(E_LIBS_LIB) ../src/acp245.lib
+acp_el_test.exe: acp_el_test.obj
+	${CXX} $^ /link ${LDFLAGS} $(E_LIBS_LIB) ../src/acp245.lib
+acp_key_test.exe: acp_key_test.obj
+	${CXX} $^ /link ${LDFLAGS} $(E_LIBS_LIB) ../src/acp245.lib
+acp_license_test.exe: acp_license_test.obj
+	${CXX} $^ /link ${LDFLAGS} $(E_LIBS_LIB) ../src/acp245.lib
+
+check: $(EXECUTABLES)
+	cp ../src/acp245.dll .
+	for x in $(EXECUTABLES); do $(WINE) $$x; done
+
+clean:
+	-rm -f *.obj *.exe *.dll *.lib *.exp

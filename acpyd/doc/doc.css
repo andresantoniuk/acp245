@@ -1,0 +1,43 @@
+.hdr-url {
+    font-weight: bold;
+}
+.hdr-desc {
+    font-weight: bold;
+}
+table {
+    width: 35em;
+    padding: 0;
+    border-collapse: collapse;
+    margin: 0;
+    margin-top: 3em;
+    border: 1px solid black;
+}
+th {
+    border: 1px solid black;
+    font-weight: bold;
+    text-align: left;
+}
+th.hdr-desc {
+    width: 15em;
+}
+tr th.fld-hdr {
+    text-align: center;
+}
+th.name {
+    width: 15em;
+}
+th.type {
+    width: 10em;
+}
+th.notes {
+    width: 10em;
+}
+
+tr {
+    border: 1px solid black;
+    margin: 0;
+}
+td {
+    border: 1px solid black;
+    margin: 0;
+}

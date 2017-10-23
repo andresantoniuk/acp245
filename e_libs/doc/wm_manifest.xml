@@ -1,0 +1,13 @@
+<Manifest version="1.0.0">
+    <Plug-in name="@plugin@" refpath="{REF}" baseband="swift">
+        <Library name="@plugin@" itfversion="@itf_version@" buildversion="@build_version@" path="@plugin@" >
+            <ItfPath>@plugin@/itf</ItfPath>
+            <Compiler name="MINGW" prefix="mingw" />
+            <Compiler name="RTE" prefix="rte" />
+            <Compiler name="GCC" prefix="gcc" />
+            <Compiler name="ADS" prefix="ads" />
+        </Library>
+    </Plug-in>
+    <SampleSet>
+    </SampleSet>
+</Manifest>

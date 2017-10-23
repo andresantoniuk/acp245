@@ -1,0 +1,265 @@
+/*=============================================================================
+  Copyright (c) 2009 by EDANTECH (ILWICK S.A.),Montevideo, URUGUAY
+
+  This software is furnished under a license and may be used and copied
+  only in accordance with the terms of such license and with the
+  inclusion of the above copyright notice. This software or any other
+  copies thereof may not be provided or otherwise made available to any
+  other person. No title to and ownership of the software is hereby
+  transferred.
+  ==============================================================================*/
+/*=============================================================================
+ *    Description:  ACP 245 Activation Key Verifier Tests.
+ *        Created:  07/28/2009 03:44:48 PM
+ *         Author:  Edantech
+ *   Contributors:  Santiago Aguiar, santiago.aguiar@edantech.com
+ ==============================================================================*/
+#include "acp245_config.h"
+
+#include "acp_key.h"
+
+#include "e_check.h"
+#include "e_mem.h"
+
+#include "acp_init.h"
+
+START_TEST (test_acp_key_verify)
+{
+    u8 kt[] = {
+        /* 160 bit key */
+        0x6A,0x72,0x39,0x53,0x1C,0xD8,0x58,0x64,0x23,0xFE,0xA4,0xEB,0xA3,0x82,0x1C,0xED,0xF5,0xCC,0xB6,0x25
+    };
+    u8 ks[] = {
+        /* received authentication key (on vehicle descriptor auth_key field) */
+        0x4D, 0x0D, 0xF4, 0x41, 0x9F, 0x06, 0xB3, 0x85
+    };
+    u8 iccid[] = {
+        /* ICCID == "1234567890123456789" */
+        0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,
+    };
+    u8 date[] = {
+        /* DATE = 20080102 */
+        0x07, 0xD8, 0x01, 0x02
+    };
+    u8 activation_msg[] = {
+        /* header */
+        0x02,
+        0x0A, /* configuration, activation */
+        0x00,
+        0x66, /* length 102 */
+
+        /* apn_cfg */
+        0x1A,
+            0x4D,
+                0x61, 0x70, 0x6E, 0x2E, 0x74, 0x65, 0x6C, 0x63, 0x6F, 0x2E,0x62, 0x61, 0x72,
+            0x44,
+                0x75, 0x73, 0x65, 0x72,
+            0x46,
+                0x66, 0x6F, 0x6F, 0x62, 0x61, 0x72,
+        /* server_cfg */
+        0x0D,
+            0x0F, 0x00, 0x00, 0x01,
+            0x0F, 0x00,
+            0x0F, 0x01, 0x02, 0x03,
+            0x12, 0x34,
+            0xAB,
+        /* ctrl_byte */
+        0xFF,
+        /* vehicle descriptor */
+        0x20, 0x36,
+            /* flags, 0x30 = sim_card_id and auth_key */
+            0xB1, 0x30,
+            0x51, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x30,
+            0x47, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+            0x85, 0x04, 0x56, 0x00, 0x04, 0x50,
+            /* sim card id, doesn't match the one used for the test, but that shouldn't be a problem */
+            0x8A, 0x01, 0x23, 0x45, 0x67, 0x89, 0x01, 0x23, 0x45, 0x67, 0x89,
+            /* auth key should be set to 0 */
+            0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    };
+    e_ret rc;
+    rc = acp_key_verify(
+            kt, sizeof(kt),
+            ks, sizeof(ks),
+            iccid, sizeof(iccid),
+            date, sizeof(date),
+            activation_msg, sizeof(activation_msg));
+    ARE_EQ_INT(rc, OK);
+}
+END_TEST
+
+START_TEST (test_acp_key_verify_msg)
+{
+    u8 kt[] = {
+        /* 160 bit key */
+        0x6A,0x72,0x39,0x53,0x1C,0xD8,0x58,0x64,0x23,0xFE,0xA4,0xEB,0xA3,0x82,0x1C,0xED,0xF5,0xCC,0xB6,0x25
+    };
+    u8 iccid[] = {
+        /* ICCID == "1234567890123456789" */
+        0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,
+    };
+    u8 date[] = {
+        /* DATE = 20080102 */
+        0x07, 0xD8, 0x01, 0x02
+    };
+    u8 activation_msg[] = {
+        /* header */
+        0x02,
+        0x0A, /* configuration, activation */
+        0x00,
+        0x66, /* length 102 */
+
+        /* apn_cfg */
+        0x1A,
+            0x4D,
+                0x61, 0x70, 0x6E, 0x2E, 0x74, 0x65, 0x6C, 0x63, 0x6F, 0x2E,0x62, 0x61, 0x72,
+            0x44,
+                0x75, 0x73, 0x65, 0x72,
+            0x46,
+                0x66, 0x6F, 0x6F, 0x62, 0x61, 0x72,
+        /* server_cfg */
+        0x0D,
+            0x0F, 0x00, 0x00, 0x01,
+            0x0F, 0x00,
+            0x0F, 0x01, 0x02, 0x03,
+            0x12, 0x34,
+            0xAB,
+        /* ctrl_byte */
+        0xFF,
+        /* vehicle descriptor */
+        0x20, 0x36,
+            /* flags, 0x30 = sim_card_id and auth_key */
+            0xB1, 0x30,
+            0x51, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x30,
+            0x47, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+            0x85, 0x04, 0x56, 0x00, 0x04, 0x50,
+            /* sim card id, doesn't match the one used for the test, but that shouldn't be a problem */
+            0x8A, 0x01, 0x23, 0x45, 0x67, 0x89, 0x01, 0x23, 0x45, 0x67, 0x89,
+            /* auth key should be set to the KS */
+            0x08, 0x4D, 0x0D, 0xF4, 0x41, 0x9F, 0x06, 0xB3, 0x85
+    };
+
+    e_ret rc;
+    e_buff buff;
+    acp_msg msg;
+
+    e_buff_wrap(&buff, activation_msg, sizeof(activation_msg));
+    e_buff_set_lim(&buff, sizeof(activation_msg));
+    rc = acp_msg_read(&buff, &msg);
+    ARE_EQ_INT(OK, rc);
+
+    rc = acp_key_verify_msg(
+            kt, sizeof(kt),
+            iccid, sizeof(iccid),
+            date, sizeof(date),
+            &msg);
+    ARE_EQ_INT(rc, OK);
+
+    acp_msg_free(&msg);
+}
+END_TEST
+
+START_TEST (test_acp_key_get_msg)
+{
+    u8 kt[] = {
+        /* 160 bit key */
+        0x6A,0x72,0x39,0x53,0x1C,0xD8,0x58,0x64,0x23,0xFE,0xA4,0xEB,0xA3,0x82,0x1C,0xED,0xF5,0xCC,0xB6,0x25
+    };
+    u8 ks[] = {
+        /* expected authentication key */
+        0x4D, 0x0D, 0xF4, 0x41, 0x9F, 0x06, 0xB3, 0x85
+    };
+    u8 iccid[] = {
+        /* ICCID == "1234567890123456789" */
+        0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,
+    };
+    u8 date[] = {
+        /* DATE = 20080102 */
+        0x07, 0xD8, 0x01, 0x02
+    };
+    u8 activation_msg[] = {
+        /* header */
+        0x02,
+        0x0A, /* configuration, activation */
+        0x00,
+        0x66, /* length 102 */
+
+        /* apn_cfg */
+        0x1A,
+            0x4D,
+                0x61, 0x70, 0x6E, 0x2E, 0x74, 0x65, 0x6C, 0x63, 0x6F, 0x2E,0x62, 0x61, 0x72,
+            0x44,
+                0x75, 0x73, 0x65, 0x72,
+            0x46,
+                0x66, 0x6F, 0x6F, 0x62, 0x61, 0x72,
+        /* server_cfg */
+        0x0D,
+            0x0F, 0x00, 0x00, 0x01,
+            0x0F, 0x00,
+            0x0F, 0x01, 0x02, 0x03,
+            0x12, 0x34,
+            0xAB,
+        /* ctrl_byte */
+        0xFF,
+        /* vehicle descriptor */
+        0x20, 0x36,
+            /* flags, 0x30 = sim_card_id and auth_key */
+            0xB1, 0x30,
+            0x51, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x30,
+            0x47, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+            0x85, 0x04, 0x56, 0x00, 0x04, 0x50,
+            /* sim card id, doesn't match the one used for the test, but that shouldn't be a problem */
+            0x8A, 0x01, 0x23, 0x45, 0x67, 0x89, 0x01, 0x23, 0x45, 0x67, 0x89,
+            /* auth key should be set to whatever */
+            0x08, 0x4D, 0x0D, 0xF4, 0x41, 0x9F, 0x06, 0xB3, 0x85
+    };
+
+    e_ret rc;
+    e_buff buff;
+    acp_msg msg;
+
+    e_buff_wrap(&buff, activation_msg, sizeof(activation_msg));
+    e_buff_set_lim(&buff, sizeof(activation_msg));
+    rc = acp_msg_read(&buff, &msg);
+    ARE_EQ_INT(OK, rc);
+    rc = acp_key_get_msg(
+            kt, sizeof(kt),
+            iccid, sizeof(iccid),
+            date, sizeof(date),
+            &msg);
+    ARE_EQ_INT(rc, OK);
+    ARE_EQ_INT(msg.data.cfg_activation.vehicle_desc.auth_key_len, sizeof(ks));
+    ARE_EQ_BINC(msg.data.cfg_activation.vehicle_desc.auth_key, ks, sizeof(ks));
+
+    /* it should also work if the auth key has not been provided */
+    e_mem_free(msg.data.cfg_activation.vehicle_desc.auth_key);
+    msg.data.cfg_activation.vehicle_desc.auth_key = NULL;
+    msg.data.cfg_activation.vehicle_desc.auth_key_len = 0;
+    rc = acp_key_get_msg(
+            kt, sizeof(kt),
+            iccid, sizeof(iccid),
+            date, sizeof(date),
+            &msg);
+    ARE_EQ_INT(rc, OK);
+    ARE_EQ_INT(msg.data.cfg_activation.vehicle_desc.auth_key_len, sizeof(ks));
+    ARE_EQ_BINC(msg.data.cfg_activation.vehicle_desc.auth_key, ks, sizeof(ks));
+
+    acp_msg_free(&msg);
+}
+END_TEST
+
+extern int acp_key_test (void);
+int acp_key_test (void) {
+    acp_init_opts("valid_license.sig");
+    return e_check_run_suite("acp_key",
+            test_acp_key_verify,
+            test_acp_key_verify_msg,
+            test_acp_key_get_msg,
+            NULL);
+}
+
+#ifndef USE_SINGLE_TEST
+int main (void) {
+	return acp_key_test();
+}
+#endif

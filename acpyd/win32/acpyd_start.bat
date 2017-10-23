@@ -1,0 +1,1 @@
+c:\python26\pythonw.exe -W ignore::DeprecationWarning c:\python26\scripts\twistd.py --rundir="c:\Program Files\Edantech\acpyd"  acpyd --config=acpyd.conf --log-dir=logs --certificate=server.pem --privkey=server.pem
